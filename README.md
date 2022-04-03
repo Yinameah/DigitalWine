@@ -14,6 +14,10 @@ However, if you think that you could make use of it, cool ! I don't really have 
 
 More specifically, if you are in **Wallis / Switzerland**, then we should probably have a drink.
 
+## Status
+
+Nothing is working. Just a Proof of concept stage, sadly ;-(
+
 #### License
 
 MIT
