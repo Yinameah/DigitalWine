@@ -1,0 +1,45 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2022-04-04 19:12:22.407128",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "lieu_dit",
+  "taille",
+  "no_cadastre"
+ ],
+ "fields": [
+  {
+   "fieldname": "lieu_dit",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Lieu dit"
+  },
+  {
+   "fieldname": "taille",
+   "fieldtype": "Data",
+   "label": "taille"
+  },
+  {
+   "fieldname": "no_cadastre",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "No Cadastre"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-04-05 07:07:39.754265",
+ "modified_by": "Administrator",
+ "module": "Cuvee",
+ "name": "Parcelle",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

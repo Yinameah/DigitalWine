@@ -9,15 +9,14 @@
  "field_order": [
   "cuvee_name",
   "millesime",
-  "operations",
-  "dummy"
+  "operations"
  ],
  "fields": [
   {
    "fieldname": "cuvee_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Cuvee Name",
+   "label": "Cuvee name",
    "reqd": 1
   },
   {
@@ -33,19 +32,15 @@
    "fieldtype": "Table",
    "label": "Operations",
    "options": "Cuvee Operation"
-  },
-  {
-   "fieldname": "dummy",
-   "fieldtype": "Data",
-   "label": "dummy"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-01-09 16:18:33.285800",
+ "modified": "2022-04-05 07:12:28.578290",
  "modified_by": "Administrator",
  "module": "Cuvee",
  "name": "Cuvee",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -62,5 +57,6 @@
   }
  ],
  "sort_field": "modified",
- "sort_order": "DESC"
+ "sort_order": "DESC",
+ "states": []
 }
