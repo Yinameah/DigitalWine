@@ -9,7 +9,8 @@
  "field_order": [
   "cuvee_name",
   "millesime",
-  "operations"
+  "operations",
+  "origine"
  ],
  "fields": [
   {
@@ -32,11 +33,17 @@
    "fieldtype": "Table",
    "label": "Operations",
    "options": "Cuvee Operation"
+  },
+  {
+   "fieldname": "origine",
+   "fieldtype": "Table MultiSelect",
+   "label": "Origine",
+   "options": "Origine De Cuvee"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-05 07:12:28.578290",
+ "modified": "2022-04-06 18:41:33.702872",
  "modified_by": "Administrator",
  "module": "Cuvee",
  "name": "Cuvee",

@@ -10,7 +10,8 @@
   "no",
   "no_cadastre",
   "lieu_dit",
-  "full_name"
+  "full_name",
+  "superficie"
  ],
  "fields": [
   {
@@ -32,14 +33,19 @@
    "fieldname": "full_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "is_virtual": 1,
    "label": "Full Name",
-   "options": "f\"{doc.lieu_dit} - {doc.no_cadastre}\""
+   "unique": 1
+  },
+  {
+   "fieldname": "superficie",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Superficie"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-06 07:02:59.997534",
+ "modified": "2022-04-06 18:29:56.717998",
  "modified_by": "Administrator",
  "module": "Cuvee",
  "name": "Parcelle",
@@ -59,7 +65,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "full_name"
 }
