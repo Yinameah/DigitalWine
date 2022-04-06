@@ -3,4 +3,5 @@
 *.egg-info
 *.swp
 tags
-cuvee/docs/current
+
+**__pycache__/

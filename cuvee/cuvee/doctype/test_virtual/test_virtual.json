@@ -1,49 +1,40 @@
 {
  "actions": [],
- "allow_rename": 1,
- "autoname": "hash",
- "creation": "2022-04-05 07:22:31.628930",
+ "creation": "2022-04-06 07:05:59.988152",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "no",
-  "no_cadastre",
-  "lieu_dit",
-  "full_name"
+  "field_a",
+  "field_b",
+  "concat"
  ],
  "fields": [
   {
-   "fieldname": "no",
-   "fieldtype": "Data",
-   "label": "No"
-  },
-  {
-   "fieldname": "no_cadastre",
-   "fieldtype": "Data",
-   "label": "No Cadastre"
-  },
-  {
-   "fieldname": "lieu_dit",
-   "fieldtype": "Data",
-   "label": "Lieu dit"
-  },
-  {
-   "fieldname": "full_name",
+   "fieldname": "field_a",
    "fieldtype": "Data",
    "in_list_view": 1,
+   "label": "field_A"
+  },
+  {
+   "fieldname": "field_b",
+   "fieldtype": "Data",
+   "label": "field_B"
+  },
+  {
+   "fieldname": "concat",
+   "fieldtype": "Data",
    "is_virtual": 1,
-   "label": "Full Name",
-   "options": "f\"{doc.lieu_dit} - {doc.no_cadastre}\""
+   "label": "concat",
+   "options": "f\"{doc.field_a} - {doc.field_b}\""
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-06 07:02:59.997534",
+ "modified": "2022-04-06 07:55:49.604473",
  "modified_by": "Administrator",
  "module": "Cuvee",
- "name": "Parcelle",
- "naming_rule": "Random",
+ "name": "test virtual",
  "owner": "Administrator",
  "permissions": [
   {
