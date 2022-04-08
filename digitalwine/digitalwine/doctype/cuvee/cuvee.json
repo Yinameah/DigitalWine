@@ -1,0 +1,82 @@
+{
+ "actions": [
+  {
+   "action": "cuvee.api.test_action",
+   "action_type": "Server Action",
+   "label": "test action"
+  }
+ ],
+ "allow_rename": 1,
+ "creation": "2022-01-09 15:31:25.743281",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "cuvee_name",
+  "millesime",
+  "operations",
+  "origine",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "cuvee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Cuvee name",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "millesime",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Millesime",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "operations",
+   "fieldtype": "Table",
+   "label": "Operations",
+   "options": "Cuvee Operation"
+  },
+  {
+   "fieldname": "origine",
+   "fieldtype": "Table MultiSelect",
+   "label": "Origine",
+   "options": "Origine De Cuvee"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-04-08 07:36:13.470579",
+ "modified_by": "Administrator",
+ "module": "digitalwine",
+ "name": "Cuvee",
+ "naming_rule": "By script",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
