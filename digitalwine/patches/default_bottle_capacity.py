@@ -2,7 +2,6 @@ import frappe
 
 
 def execute():
-    # frappe.reload_doc("cuvee", "doctype", "Bottle Capacity")
     default_bottle_capacity = [
         {
             "doctype": "Bottle Capacity",

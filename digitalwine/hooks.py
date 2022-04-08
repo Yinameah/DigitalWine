@@ -1,10 +1,10 @@
 from . import __version__ as app_version
 
-app_name = "cuvee"
-app_title = "Cuvee"
+app_name = "digitalwine"
+app_title = "DigitalWine"
 app_publisher = "Aurélien Cibrario"
-app_description = "A frappe/erpnext app to deal with wine maker needs"
-app_icon = "octicon octicon-file-directory"
+app_description = "A frappe app to deal with wine maker needs"
+app_icon = "octicon beaker"
 app_color = "red"
 app_email = "aurelien.cibrario@gmail.com"
 app_license = "MIT"
@@ -13,15 +13,15 @@ app_license = "MIT"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/cuvee/css/cuvee.css"
-# app_include_js = "/assets/cuvee/js/cuvee.js"
+# app_include_css = "/assets/digitalwine/css/digitalwine.css"
+# app_include_js = "/assets/digitalwine/js/digitalwine.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/cuvee/css/cuvee.css"
-# web_include_js = "/assets/cuvee/js/cuvee.js"
+# web_include_css = "/assets/digitalwine/css/digitalwine.css"
+# web_include_js = "/assets/digitalwine/js/digitalwine.js"
 
 # include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "cuvee/public/scss/website"
+# website_theme_scss = "digitalwine/public/scss/website"
 
 # include js, css files in header of web form
 # webform_include_js = {"doctype": "public/js/doctype.js"}
@@ -56,20 +56,20 @@ home_page = "home"
 # Installation
 # ------------
 
-# before_install = "cuvee.install.before_install"
-# after_install = "cuvee.install.after_install"
+# before_install = "digitalwine.install.before_install"
+# after_install = "digitalwine.install.after_install"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "cuvee.uninstall.before_uninstall"
-# after_uninstall = "cuvee.uninstall.after_uninstall"
+# before_uninstall = "digitalwine.uninstall.before_uninstall"
+# after_uninstall = "digitalwine.uninstall.after_uninstall"
 
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
 
-# notification_config = "cuvee.notifications.get_notification_config"
+# notification_config = "digitalwine.notifications.get_notification_config"
 
 # Permissions
 # -----------
@@ -108,39 +108,39 @@ home_page = "home"
 
 # scheduler_events = {
 # 	"all": [
-# 		"cuvee.tasks.all"
+# 		"digitalwine.tasks.all"
 # 	],
 # 	"daily": [
-# 		"cuvee.tasks.daily"
+# 		"digitalwine.tasks.daily"
 # 	],
 # 	"hourly": [
-# 		"cuvee.tasks.hourly"
+# 		"digitalwine.tasks.hourly"
 # 	],
 # 	"weekly": [
-# 		"cuvee.tasks.weekly"
+# 		"digitalwine.tasks.weekly"
 # 	]
 # 	"monthly": [
-# 		"cuvee.tasks.monthly"
+# 		"digitalwine.tasks.monthly"
 # 	]
 # }
 
 # Testing
 # -------
 
-# before_tests = "cuvee.install.before_tests"
+# before_tests = "digitalwine.install.before_tests"
 
 # Overriding Methods
 # ------------------------------
 #
 # override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "cuvee.event.get_events"
+# 	"frappe.desk.doctype.event.event.get_events": "digitalwine.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-# 	"Task": "cuvee.task.get_dashboard_data"
+# 	"Task": "digitalwine.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
@@ -174,5 +174,5 @@ user_data_fields = [
 # --------------------------------
 
 # auth_hooks = [
-# 	"cuvee.auth.validate"
+# 	"digitalwine.auth.validate"
 # ]
