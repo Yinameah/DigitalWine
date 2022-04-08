@@ -3,13 +3,13 @@ from setuptools import setup, find_packages
 with open("requirements.txt") as f:
 	install_requires = f.read().strip().split("\n")
 
-# get version from __version__ variable in cuvee/__init__.py
-from cuvee import __version__ as version
+# get version from __version__ variable in digitalwine/__init__.py
+from digitalwine import __version__ as version
 
 setup(
-	name="cuvee",
+	name="digitalwine",
 	version=version,
-	description="A frappe/erpnext app to deal with wine maker needs",
+	description="A frappe app for wine maker.",
 	author="Aurélien Cibrario",
 	author_email="aurelien.cibrario@gmail.com",
 	packages=find_packages(),

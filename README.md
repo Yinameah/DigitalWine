@@ -1,4 +1,4 @@
-## Cuvee
+## DigitalWine
 
 A frappe app to deal with wine maker needs.
 

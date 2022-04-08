@@ -4,15 +4,15 @@ include *.json
 include *.md
 include *.py
 include *.txt
-recursive-include cuvee *.css
-recursive-include cuvee *.csv
-recursive-include cuvee *.html
-recursive-include cuvee *.ico
-recursive-include cuvee *.js
-recursive-include cuvee *.json
-recursive-include cuvee *.md
-recursive-include cuvee *.png
-recursive-include cuvee *.py
-recursive-include cuvee *.svg
-recursive-include cuvee *.txt
-recursive-exclude cuvee *.pyc
+recursive-include digitalwine *.css
+recursive-include digitalwine *.csv
+recursive-include digitalwine *.html
+recursive-include digitalwine *.ico
+recursive-include digitalwine *.js
+recursive-include digitalwine *.json
+recursive-include digitalwine *.md
+recursive-include digitalwine *.png
+recursive-include digitalwine *.py
+recursive-include digitalwine *.svg
+recursive-include digitalwine *.txt
+recursive-exclude digitalwine *.pyc
