@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "creation": "2022-04-07 15:12:23.054424",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "cuvee",
+  "bottle_size",
+  "price",
+  "full_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "bottle_size",
+   "fieldtype": "Link",
+   "label": "Bottle Size",
+   "options": "Bottle Capacity",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Float",
+   "label": "Price"
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Full Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cuvee",
+   "fieldtype": "Link",
+   "label": "Cuvee",
+   "options": "Cuvee",
+   "set_only_once": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-04-08 07:59:07.352068",
+ "modified_by": "Administrator",
+ "module": "Cuvee",
+ "name": "Wine Product",
+ "naming_rule": "By script",
+ "owner": "Administrator",
+ "permissions": [],
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "full_name"
+}

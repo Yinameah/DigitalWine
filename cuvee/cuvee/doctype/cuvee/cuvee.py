@@ -8,6 +8,10 @@ from frappe.model.document import Document
 class Cuvee(Document):
     """ """
 
+    def autoname(self):
+
+        self.name = f"{self.cuvee_name} ({self.millesime})"
+
     def before_save(self):
 
         print()
@@ -16,3 +20,5 @@ class Cuvee(Document):
         print(type(self))
 
         self.dummy = "bar"
+
+
