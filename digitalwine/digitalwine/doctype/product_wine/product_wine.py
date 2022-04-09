@@ -5,10 +5,15 @@ import frappe
 from frappe.model.document import Document
 
 
-class WineProduct(Document):
+class ProductWine(Document):
     def autoname(self):
         cuvee = frappe.get_doc("Cuvee", self.cuvee)
-        self.name = f"{cuvee.name} - {cuvee.millesime} - {self.bottle_size}"
+        self.name = f"{cuvee.cepage} - {cuvee.millesime} - {self.bottle_capacity}"
+
+    def before_save(self):
+        cuvee = frappe.get_doc("Cuvee", self.cuvee)
+        self.millesime = cuvee.millesime
+        self.cepage = cuvee.cepage
 
 
 attrs_of_Document_obj = [

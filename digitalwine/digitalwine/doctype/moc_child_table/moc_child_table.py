@@ -4,9 +4,5 @@
 # import frappe
 from frappe.model.document import Document
 
-
-class CuveeOperation(Document):
-    """
-    Apparently, validate & co should be in parent doctype
-    So I wonder why this file only exists ...
-    """
+class MocChildTable(Document):
+	pass

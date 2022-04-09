@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestWineProduct(FrappeTestCase):
+class TestProductWine(FrappeTestCase):
 	pass

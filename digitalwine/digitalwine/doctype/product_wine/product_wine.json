@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-04-09 08:45:32.909229",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "currently_sold",
+  "cuvee",
+  "bottle_capacity",
+  "price",
+  "_section_1",
+  "stock",
+  "_break1",
+  "cepage",
+  "millesime"
+ ],
+ "fields": [
+  {
+   "fieldname": "cuvee",
+   "fieldtype": "Link",
+   "label": "Cuvee",
+   "options": "Cuvee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "bottle_capacity",
+   "fieldtype": "Link",
+   "label": "Bottle Capacity",
+   "options": "Bottle Capacity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Data",
+   "label": "Price"
+  },
+  {
+   "fieldname": "cepage",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Cepage",
+   "read_only": 1
+  },
+  {
+   "fieldname": "millesime",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Millesime",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "stock",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Stock",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "currently_sold",
+   "fieldtype": "Check",
+   "in_standard_filter": 1,
+   "label": "Currently Sold"
+  },
+  {
+   "fieldname": "_section_1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "_break1",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-04-09 09:32:55.843855",
+ "modified_by": "Administrator",
+ "module": "digitalwine",
+ "name": "Product Wine",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

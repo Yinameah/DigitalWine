@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2022-04-09 09:57:18.533285",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "foo",
+  "bar"
+ ],
+ "fields": [
+  {
+   "fieldname": "foo",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "foo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "bar",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "bar",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-04-09 10:01:26.163448",
+ "modified_by": "Administrator",
+ "module": "digitalwine",
+ "name": "Moc Child Table",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
