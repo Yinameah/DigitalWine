@@ -1,0 +1,32 @@
+{
+ "charts": [],
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Comptabilit\u00e9 de cave<br></b></span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cuvee\",\"col\":3}}]",
+ "creation": "2022-04-08 18:36:36.687492",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "heart-active",
+ "idx": 0,
+ "label": "Wine",
+ "links": [],
+ "modified": "2022-04-09 08:15:37.744658",
+ "modified_by": "Administrator",
+ "module": "digitalwine",
+ "name": "Wine",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Cuvee",
+   "link_to": "Cuvee",
+   "type": "DocType"
+  }
+ ],
+ "title": "Wine"
+}

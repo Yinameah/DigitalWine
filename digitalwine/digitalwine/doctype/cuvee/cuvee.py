@@ -20,5 +20,3 @@ class Cuvee(Document):
         print(type(self))
 
         self.dummy = "bar"
-
-
