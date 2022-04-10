@@ -13,8 +13,16 @@
  "engine": "InnoDB",
  "field_order": [
   "cepage",
+  "_col_break1",
   "millesime",
-  "operations",
+  "total",
+  "test_button",
+  "_sec_break1",
+  "ops_in",
+  "total_in",
+  "ops_out",
+  "total_out",
+  "_sec_break2",
   "origine",
   "description"
  ],
@@ -26,12 +34,6 @@
    "label": "Millesime",
    "reqd": 1,
    "set_only_once": 1
-  },
-  {
-   "fieldname": "operations",
-   "fieldtype": "Table",
-   "label": "Operations",
-   "options": "Cuvee Operation"
   },
   {
    "fieldname": "origine",
@@ -52,11 +54,58 @@
    "label": "Cepage",
    "reqd": 1,
    "set_only_once": 1
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Int",
+   "label": "Total (litres)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "_col_break1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "_sec_break1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "_sec_break2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "ops_out",
+   "fieldtype": "Table",
+   "label": "Output",
+   "options": "Cuvee Op Out"
+  },
+  {
+   "fieldname": "total_in",
+   "fieldtype": "Int",
+   "label": "Total Inputs"
+  },
+  {
+   "fieldname": "total_out",
+   "fieldtype": "Int",
+   "label": "Total Outputs",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ops_in",
+   "fieldtype": "Table",
+   "label": "Input",
+   "options": "Cuvee Op In"
+  },
+  {
+   "fieldname": "test_button",
+   "fieldtype": "Button",
+   "label": "Test Button",
+   "options": "change_some_value_in_doc"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-09 10:12:56.766589",
+ "modified": "2022-04-10 19:11:34.900316",
  "modified_by": "Administrator",
  "module": "digitalwine",
  "name": "Cuvee",

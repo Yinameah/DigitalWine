@@ -26,7 +26,8 @@ frappe.ui.form.on('Cuvee', {
             ]
         }
     })
-  }
+  },
+
 });
 
 
@@ -48,3 +49,21 @@ frappe.ui.form.on('Cuvee Operation', {
 
 });
 
+frappe.ui.form.on('Cuvee Op In', {
+
+  before_ops_in_remove(frm, cdt, cdn){
+      let row = frappe.get_doc(cdt, cdn);
+      if (row.type === 'Transfer'){
+        //frappe.msgprint('Row rewoved !');
+      }
+  },
+
+});
+
+frappe.ui.form.on('Cuvee Op Out', {
+
+  ops_out_remove(frm, cdt, cdn){
+      //frappe.msgprint('Row rewoved !');
+  },
+
+});

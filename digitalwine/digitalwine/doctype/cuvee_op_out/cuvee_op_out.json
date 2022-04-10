@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2022-04-09 19:00:58.040517",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "type",
+  "qty",
+  "cuvee_to",
+  "transfer_id"
+ ],
+ "fields": [
+  {
+   "default": "now",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Loss\nTransfer\nSell\nBottling",
+   "reqd": 1
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Quantity (litres)",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval: doc.type=='Transfer'",
+   "fieldname": "cuvee_to",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Destination Cuvee",
+   "mandatory_depends_on": "eval: doc.type=='Transfer'",
+   "options": "Cuvee"
+  },
+  {
+   "fieldname": "transfer_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Transfer ID"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-04-10 19:06:10.564836",
+ "modified_by": "Administrator",
+ "module": "digitalwine",
+ "name": "Cuvee Op Out",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
