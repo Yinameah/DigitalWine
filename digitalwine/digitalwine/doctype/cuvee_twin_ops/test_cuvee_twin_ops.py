@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestCuveeTransfer(FrappeTestCase):
+class TestCuveeTwinOps(FrappeTestCase):
 	pass

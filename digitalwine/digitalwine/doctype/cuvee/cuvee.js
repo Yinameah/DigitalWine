@@ -4,24 +4,24 @@
 frappe.ui.form.on('Cuvee', {
    //refresh: function(frm) {
    //}
-  setup : function(frm) {
+	setup : function(frm) {
 
-    frm.set_query('cuvee_from', 'ops_in', function(frm) {
-        return {
-            filters: [
-              ['Cuvee','name','!=',frm.name]
-              
-              // in simple '=' version, can use the simpler version 
-              // field : 'value' in a dict
-              // {
-              //cepage: selected_cepage,
-              //millesime: '2021'
-              // }
-            ]
-        }
-    })
-  },
+		frm.set_query('other_cuvee', 'ops_in', function(frm) {
+			debugger
+			return {
+				filters: [
+					['Cuvee','name','!=',frm.name]
 
+					// in simple '=' version, can use the simpler version 
+					// field : 'value' in a dict
+					// {
+					//cepage: selected_cepage,
+					//millesime: '2021'
+					// }
+				]
+			}
+		})
+	},
 });
 
 
@@ -46,12 +46,13 @@ frappe.ui.form.on('Cuvee', {
 
 frappe.ui.form.on('Cuvee Op In', {
 
-  before_ops_in_remove(frm, cdt, cdn){
-      let row = frappe.get_doc(cdt, cdn);
-      if (row.type === 'Transfer'){
-        //frappe.msgprint('Row rewoved !');
-      }
-  },
+	before_ops_in_remove(frm, cdt, cdn){
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.type === 'Transfer'){
+			//frappe.msgprint('Row rewoved !');
+			//
+		}
+	},
 
 });
 

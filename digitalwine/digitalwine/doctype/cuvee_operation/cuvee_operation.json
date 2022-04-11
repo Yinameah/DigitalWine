@@ -10,7 +10,9 @@
   "type",
   "qty",
   "other_cuvee",
-  "transfert_id"
+  "transfer_id",
+  "column_break_6",
+  "comment"
  ],
  "fields": [
   {
@@ -25,32 +27,45 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "Harvest\nTransfer\nSell\nBuy\nLoss\nBottling"
+   "options": "Harvest\nTransfer\nSell\nBuy\nLoss\nBottling",
+   "set_only_once": 1
   },
   {
+   "default": "0",
    "fieldname": "qty",
    "fieldtype": "Int",
    "in_list_view": 1,
    "label": "Quantity (litres)"
   },
   {
+   "depends_on": "eval:doc.type=='Transfer'",
    "fieldname": "other_cuvee",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Other Cuvee",
-   "options": "Cuvee"
+   "mandatory_depends_on": "eval:doc.type=='Transfer'",
+   "options": "Cuvee",
+   "set_only_once": 1
   },
   {
-   "fieldname": "transfert_id",
+   "fieldname": "transfer_id",
    "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "transfert_id"
+   "hidden": 1,
+   "label": "transfer_id"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "comment",
+   "fieldtype": "Text",
+   "label": "Comment"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-04-11 10:10:59.404092",
+ "modified": "2022-04-12 01:43:44.414977",
  "modified_by": "Administrator",
  "module": "digitalwine",
  "name": "Cuvee Operation",

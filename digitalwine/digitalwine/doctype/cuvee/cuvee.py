@@ -14,36 +14,66 @@ class Cuvee(Document):
 
     def validate(self):
 
+        ############
+        # Operations validation
+        ############
+        def op_common_validation(op):
+            if op.date is None:
+                op.date = frappe.utils.today()
+            if op.type == "Transfer":
+                if not op.other_cuvee:
+                    if op.parentfield == "ops_in":
+                        frappe.throw(
+                            f"Input transfer (line {op.idx}) miss the other cuvee"
+                        )
+                    else:
+                        frappe.throw(
+                            f"Output transfer (line {op.idx}) miss the other cuvee"
+                        )
+                if op.other_cuvee == self.name:
+                    frappe.throw(
+                        "You cannot transfer to the same cuvee."
+                        "This would harldy be a transfer ;-)"
+                    )
+
+        ############
+        # INPUTS OP
+        ############
         in_qty = 0
-        for line_no, operation in enumerate(self.ops_in):
-            in_qty += operation.qty
-            if operation.date is None:
-                operation.date = frappe.utils.today()
+        for op in self.ops_in:
+            in_qty += op.qty
 
-            # if operation.type == "Transfer":
-            #     if operation.cuvee_from is None:
-            #         frappe.throw(f"Input in line {line_no+1} needs a source")
+            op_common_validation(op)
 
+        ############
+        # OUTPUTS OP
+        ############
         out_qty = 0
-        for line_no, operation in enumerate(self.ops_out):
-            out_qty += operation.qty
-            if operation.date is None:
-                operation.date = frappe.utils.today()
+        for op in self.ops_out:
+            out_qty += op.qty
 
-            # if operation.type == "Transfer":
-            #     if operation.cuvee_to is None:
-            #         frappe.throw(f"Output in line {line_no+1} needs a destination")
+            op_common_validation(op)
 
+        ############
+        # Other Fields validation
+        ############
         self.total_in = in_qty
         self.total_out = out_qty
         self.total = in_qty - out_qty
 
         if self.total < 0:
             frappe.throw(
-                f"This would result in negative liters in the Cuvee {self.name}. You cannot do this"
+                f"This would result in negative liters in the Cuvee {self.name}. "
+                "You cannot do this"
             )
 
-    def update_operations_first_attempt(self):
+        # Sort by date (seems atrociously inefficient, but recommended way on some forum.
+        for i, op in enumerate(sorted(self.ops_in, key=lambda op: op.date)):
+            op.idx = i + 1
+        for i, op in enumerate(sorted(self.ops_out, key=lambda op: op.date)):
+            op.idx = i + 1
+
+    def update_operations_draft(self):
 
         all_transfer_in = frappe.db.get_list(
             "Cuvee Op In",
@@ -209,42 +239,136 @@ class Cuvee(Document):
             frappe.get_doc("Cuvee", cuvee_name).db_set("modified", frappe.utils.now())
 
         for cuvee in cuvees_to_save:
-            cuvee.save(update_ops=False)
+            cuvee.save(update_twin_ops=False)
 
     def save(self, *args, **kwargs):
+        """
+        Override save method to act both before and after
+        and provide the ability to save related cuvees without the
+        validation, otherwise, I end up in a recursion problem
+        """
 
         try:
-            update_ops = kwargs.pop("no_operations_update")
+            update_twin_ops = kwargs.pop("update_twin_ops")
         except KeyError:
-            update_ops = True
+            update_twin_ops = True
 
-        if update_ops:
+        if update_twin_ops:
             self.prepare_update_operations()
 
         super().save(*args, **kwargs)
 
-        if update_ops:
+        if update_twin_ops:
             self.update_operations()
 
     def prepare_update_operations(self):
+        """
+        Get infos about the child Cuvee Operation of Doc about to be save.
+        Save them for later (after the actual save operation of self)
+        """
 
-        existing_ops = frappe.db.get_list(
-            "Cuvee Operation",
-            filters={"type": "Transfer", "parent": self.name},
-            pluck="name",
+        previous_ops = set(
+            frappe.db.get_list(
+                "Cuvee Operation",
+                filters={"type": "Transfer", "parent": self.name},
+                pluck="name",
+            )
         )
-        pending_ops = self.ops_in + self.ops_out
-        breakpoint()
+        pending_ops = {
+            op.name for op in self.ops_in + self.ops_out if op.type == "Transfer"
+        }
 
-        frappe.msgprint(f"{existing_ops} vs {pending_ops}")
+        self.updated_ops = previous_ops.intersection(pending_ops)
+
+        self.deleted_ops = previous_ops.difference(pending_ops)
+
+        new_ops_list = {
+            op
+            for op in self.ops_in + self.ops_out
+            if op.name is None and op.type == "Transfer"
+        }
+
+        self.new_ops = []
+        for op in new_ops_list:
+            # Define a new twin tracking for a new op
+            twin = frappe.new_doc("Cuvee Twin Ops")
+            # Save to generate the name
+            twin.save()
+            # weird, but correct, I use the twin tracking name as transfer_id
+            op.transfer_id = twin.name
+            self.new_ops.append((op, twin))
 
     def update_operations(self):
 
-        pp_pending_ops = "<br>".join(
-            [f"{op.name}: {op.qty}l. -> {op.other_cuvee}" for op in self.pending_ops]
-        )
-        # frappe.throw("Pending transfer ops :<br>", pp_pending_ops)
-        # frappe.msgprint(pp_pending_ops)
+        # First we add the new ones
+        for op1, twin in self.new_ops:
+
+            twin.op1 = op1.name
+            op2 = frappe.new_doc("Cuvee Operation")
+
+            if op1.parentfield == "ops_in":
+                op2_field = "ops_out"
+            else:
+                op2_field = "ops_in"
+            op2.update(
+                {
+                    "date": op1.date,
+                    "qty": op1.qty,
+                    "parent": op1.other_cuvee,
+                    "other_cuvee": op1.parent,
+                    "parenttype": "Cuvee",
+                    "parentfield": op2_field,
+                    "type": "Transfer",
+                    "transfer_id": twin.name,
+                }
+            )
+            # Specifing parent/parenttype/parentfield, we do create a child
+            op2.insert()
+            # However, we still want to validate and protect again
+            # a non refreshed target cuvee view
+            frappe.get_doc("Cuvee", op2.parent).save(update_twin_ops=False)
+            # And save the twin to keep track
+            twin.op2 = op2.name
+            twin.save()
+
+        # Now, let's deal with updates
+        updated_cuvees = set()
+        for op in self.updated_ops:
+            op = frappe.get_doc("Cuvee Operation", op)
+            twin = frappe.get_doc("Cuvee Twin Ops", op.transfer_id)
+            if op.name == twin.op1:
+                op2 = twin.op2
+            else:
+                op2 = twin.op1
+            op2 = frappe.get_doc("Cuvee Operation", op2)
+            op2.update({"date": op.date, "qty": op.qty})
+            op2.save()
+            updated_cuvees.add(op2.parent)
+
+        # And at last with deletions
+        for op in self.deleted_ops:
+
+            data = frappe.db.sql(
+                "SELECT op1,op2 FROM `tabCuvee Twin Ops` WHERE op1=%(op)s OR op2=%(op)s",
+                values={"op": op},
+                as_dict=1,
+            )
+            assert len(data) == 1
+
+            try:
+                op2 = frappe.get_doc("Cuvee Operation", data[0]["op1"])
+            except frappe.exceptions.DoesNotExistError:
+                op2 = frappe.get_doc("Cuvee Operation", data[0]["op2"])
+
+            twin = frappe.get_doc("Cuvee Twin Ops", op2.transfer_id)
+            updated_cuvees.add(op2.parent)
+            op2.delete()
+            twin.delete()
+
+        # And mark the updated cuvees to prevent refresh stuff
+        for cuvee in updated_cuvees:
+            cuvee = frappe.get_doc("Cuvee", cuvee)
+            cuvee.save(update_twin_ops=False)
 
     @frappe.whitelist()
     def test_button(self):
