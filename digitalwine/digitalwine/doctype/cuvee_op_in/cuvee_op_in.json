@@ -9,7 +9,7 @@
   "date",
   "type",
   "qty",
-  "cuvee_from",
+  "cuvee",
   "transfer_id"
  ],
  "fields": [
@@ -37,25 +37,26 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval: doc.type=='Transfer'",
-   "fieldname": "cuvee_from",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Source Cuvee",
-   "mandatory_depends_on": "eval: doc.type=='Transfer'",
-   "options": "Cuvee"
-  },
-  {
    "fieldname": "transfer_id",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Transfer ID"
+   "label": "Transfer ID",
+   "unique": 1
+  },
+  {
+   "depends_on": "eval: doc.type=='Transfer'",
+   "fieldname": "cuvee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "cuvee",
+   "mandatory_depends_on": "eval: doc.type=='Transfer'",
+   "options": "Cuvee"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-04-10 19:09:18.637996",
+ "modified": "2022-04-11 09:52:20.562192",
  "modified_by": "Administrator",
  "module": "digitalwine",
  "name": "Cuvee Op In",

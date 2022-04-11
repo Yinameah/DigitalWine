@@ -12,99 +12,258 @@ class Cuvee(Document):
 
         self.name = f"{self.cepage} ({self.millesime})"
 
-    # def validate(self):
+    def validate(self):
 
-    #     in_qty = 0
-    #     for line_no, operation in enumerate(self.ops_in):
-    #         in_qty += operation.qty
+        in_qty = 0
+        for line_no, operation in enumerate(self.ops_in):
+            in_qty += operation.qty
+            if operation.date is None:
+                operation.date = frappe.utils.today()
 
-    #         if operation.type == "Transfer":
-    #             # frappe.throw(f"You cannot
-    #             if operation.cuvee_from is None:
-    #                 frappe.throw(f"Input in line {line_no+1} needs a source")
+            # if operation.type == "Transfer":
+            #     if operation.cuvee_from is None:
+            #         frappe.throw(f"Input in line {line_no+1} needs a source")
 
-    #     out_qty = 0
-    #     for line_no, operation in enumerate(self.ops_out):
-    #         out_qty += operation.qty
+        out_qty = 0
+        for line_no, operation in enumerate(self.ops_out):
+            out_qty += operation.qty
+            if operation.date is None:
+                operation.date = frappe.utils.today()
 
-    #         if operation.type == "Transfer":
-    #             if operation.cuvee_to is None:
-    #                 frappe.throw(f"Output in line {line_no+1} needs a destination")
+            # if operation.type == "Transfer":
+            #     if operation.cuvee_to is None:
+            #         frappe.throw(f"Output in line {line_no+1} needs a destination")
 
-    #     self.total_in = in_qty
-    #     self.total_out = out_qty
-    #     self.total = in_qty - out_qty
+        self.total_in = in_qty
+        self.total_out = out_qty
+        self.total = in_qty - out_qty
 
-    #     if self.total < 0:
-    #         frappe.throw(
-    #             f"This would result in negative liters in the Cuvee. You cannot do this"
-    #         )
+        if self.total < 0:
+            frappe.throw(
+                f"This would result in negative liters in the Cuvee {self.name}. You cannot do this"
+            )
 
-    def before_save(self):
+    def update_operations_first_attempt(self):
 
-        pass
-        # row = self.append(
-        #     "ops_out",
-        #     {
-        #         "date": frappe.utils.today(),
-        #         "type": "Transfer",
-        #         "qty": 500,
-        #         "cuvee_to": self.name,
-        #     },
-        # )
-        # self.save()
+        all_transfer_in = frappe.db.get_list(
+            "Cuvee Op In",
+            filters={"type": "Transfer", "parent": self.name},
+            pluck="transfer_id",
+        )
+        print(f"in {self} {all_transfer_in=}")
+        all_transfer_out = frappe.db.get_list(
+            "Cuvee Op Out",
+            filters={"type": "Transfer", "parent": self.name},
+            pluck="transfer_id",
+        )
+        print(f"in {self} {all_transfer_out=}")
+        modified_cuvees = set()
+        cuvees_to_save = []
 
+        ##########
         # TRANSFER INPUT FOR SELF
-        # for op_in in self.ops_in:
+        ##########
+        print(f"{self} <-")
+        for op_in in self.ops_in:
 
-        #     if op_in.type == "Transfer":
-        #         # This is a new line because transfer_id is hidden
-        #         # and filled here below
-        #         if op_in.transfer_id is None:
-        #             op_in.transfer_id = frappe.utils.now()
+            if op_in.type == "Transfer":
+                print(f"in {self}, iterate {op_in.transfer_id} ...")
 
-        #             cuvee_from = frappe.get_doc("Cuvee", op_in.cuvee_from)
+                # This is a new line because transfer_id is empty (hidden)
+                if op_in.transfer_id is None:
+                    op_in.transfer_id = frappe.utils.random_string(40)
 
-        #             row = cuvee_src.append(
-        #                 "ops_out",
-        #                 {
-        #                     "date": op_in.date,
-        #                     "type": "Transfer",
-        #                     "qty": op_in.qty,
-        #                     "cuvee_to": self.name,
-        #                     "transfer_id": op_in.transfer_id,
-        #                 },
-        #             )
-        #             breakpoint()
-        #             # row.save()
-        #             # cuvee_src.save()
-        #         else:
-        #             # This is an update because transfer_id is already filled
-        #             pass
-        #         # frappe.db.get_list()
+                    cuvee_from = frappe.get_doc("Cuvee", op_in.cuvee_from)
+                    if cuvee_from.name == self.name:
+                        frappe.throw(
+                            "You cannot transfer to the same cuvee."
+                            "This would harldy be a transfer ;-)"
+                        )
+
+                    row = cuvee_from.append(
+                        "ops_out",
+                        {
+                            "date": op_in.date,
+                            "type": "Transfer",
+                            "qty": op_in.qty,
+                            "cuvee_to": self.name,
+                            "transfer_id": op_in.transfer_id,
+                        },
+                    )
+                    print(f"in {self}, save {cuvee_from}")
+                    cuvees_to_save.append(cuvee_from)
+                    # cuvee_from.save()
+
+                # This is an update because transfer_id is already filled
+                else:
+
+                    all_transfer_in.remove(op_in.transfer_id)
+                    print(f"in {self} : {all_transfer_in=}")
+
+                    corresp_op_name = frappe.db.get_list(
+                        "Cuvee Op Out",
+                        filters={"transfer_id": op_in.transfer_id},
+                        pluck="name",
+                    )
+                    assert len(corresp_op_name) == 1, (
+                        f"Ouch, trying to update Cuvee Op Out,"
+                        " but didn't got one corresp operation : \n"
+                        f"{corresp_op_name}"
+                    )
+
+                    corresp_op = frappe.get_doc("Cuvee Op Out", corresp_op_name[0])
+                    corresp_op.qty = op_in.qty
+                    corresp_op.date = op_in.date
+                    corresp_op.save()
+                    modified_cuvees.add(corresp_op.parent)
+
+        # remaining transfer have been deleted
+        # The ORM will remove them, but we need to remove the corresp_op
+        for transfer_id_to_del in all_transfer_in:
+            corresp_op_name = frappe.db.get_list(
+                "Cuvee Op Out",
+                filters={"transfer_id": transfer_id_to_del},
+                pluck="name",
+            )
+            assert (
+                len(corresp_op_name) == 1
+            ), f"Ouch, trying to delete in, more than one corresponding operation"
+            corresp_op = frappe.get_doc("Cuvee Op Out", corresp_op_name[0])
+            corresp_op.delete()
+            modified_cuvees.add(corresp_op.parent)
+
+        ##########
+        # TRANSFER OUTPUT FOR SELF
+        ##########
+        print(f"{self} ->")
+        for op_out in self.ops_out:
+
+            if op_out.type == "Transfer":
+                print(f"in {self}, iterate {op_out.transfer_id} ...")
+
+                # This is a new line because transfer_id is empty (hidden)
+                if op_out.transfer_id is None:
+                    op_out.transfer_id = frappe.utils.random_string(40)
+
+                    cuvee_to = frappe.get_doc("Cuvee", op_out.cuvee_to)
+                    if cuvee_to.name == self.name:
+                        frappe.throw(
+                            "You cannot transfer to the same cuvee."
+                            "This would harldy be a transfer ;-)"
+                        )
+
+                    row = cuvee_to.append(
+                        "ops_in",
+                        {
+                            "date": op_in.date,
+                            "type": "Transfer",
+                            "qty": op_in.qty,
+                            "cuvee_from": self.name,
+                            "transfer_id": op_out.transfer_id,
+                        },
+                    )
+                    print(f"in {self}, save {cuvee_to}")
+                    # cuvee_to.save()
+                    cuvees_to_save.append(cuvee_to)
+
+                # This is an update because transfer_id is already filled
+                else:
+
+                    all_transfer_in.remove(op_out.transfer_id)
+                    print(f"in {self} {all_transfer_out=}")
+
+                    corresp_op_name = frappe.db.get_list(
+                        "Cuvee Op In",
+                        filters={"transfer_id": op_out.transfer_id},
+                        pluck="name",
+                    )
+                    assert len(corresp_op_name) == 1, (
+                        f"Ouch, trying to update Cuvee Op In,"
+                        " but got didn't got one corresp operation : \n"
+                        f"{corresp_op_name}"
+                    )
+
+                    corresp_op = frappe.get_doc("Cuvee Op In", corresp_op_name[0])
+                    corresp_op.qty = op_in.qty
+                    corresp_op.date = op_in.date
+                    corresp_op.save()
+                    modified_cuvees.add(corresp_op.parent)
+
+        # remaining transfer have been deleted
+        # The ORM will remove them, but we need to remove the corresp_op
+        for transfer_id_to_del in all_transfer_out:
+            corresp_op_name = frappe.db.get_list(
+                "Cuvee Op In",
+                filters={"transfer_id": transfer_id_to_del},
+                pluck="name",
+            )
+            assert (
+                len(corresp_op_name) == 1
+            ), f"Ouch, trying to delete out, more than one corresponding operation"
+            corresp_op = frappe.get_doc("Cuvee Op In", corresp_op_name[0])
+            corresp_op.delete()
+            modified_cuvees.add(corresp_op.parent)
+
+        # Mark all the modified cuvee as such so the ui will force reload
+        for cuvee_name in modified_cuvees:
+            frappe.get_doc("Cuvee", cuvee_name).db_set("modified", frappe.utils.now())
+
+        for cuvee in cuvees_to_save:
+            cuvee.save(update_ops=False)
+
+    def save(self, *args, **kwargs):
+
+        try:
+            update_ops = kwargs.pop("no_operations_update")
+        except KeyError:
+            update_ops = True
+
+        if update_ops:
+            self.prepare_update_operations()
+
+        super().save(*args, **kwargs)
+
+        if update_ops:
+            self.update_operations()
+
+    def prepare_update_operations(self):
+
+        existing_ops = frappe.db.get_list(
+            "Cuvee Operation",
+            filters={"type": "Transfer", "parent": self.name},
+            pluck="name",
+        )
+        pending_ops = self.ops_in + self.ops_out
+        breakpoint()
+
+        frappe.msgprint(f"{existing_ops} vs {pending_ops}")
+
+    def update_operations(self):
+
+        pp_pending_ops = "<br>".join(
+            [f"{op.name}: {op.qty}l. -> {op.other_cuvee}" for op in self.pending_ops]
+        )
+        # frappe.throw("Pending transfer ops :<br>", pp_pending_ops)
+        # frappe.msgprint(pp_pending_ops)
 
     @frappe.whitelist()
-    def change_some_value_in_doc(self):
+    def test_button(self):
 
-        row = self.append(
-            "ops_in",
-            {
-                "date": frappe.utils.today(),
-                "type": "Transfer",
-                "qty": 500,
-                "cuvee_from": self.name,
-            },
-        )
-        # breakpoint()
-        # self.modified = frappe.utils.now()
-        # self.notify_update()
-        # return {"test": "machin"}
-        self.save()
-        self.notify_update()
+        randoms = []
+        count = 0
+        while True:
+            rand = frappe.utils.random_string(3)
+            if rand not in randoms:
+                randoms.append(rand)
+                count += 1
+            else:
+                break
+        print(f"{randoms=}")
+        frappe.throw(f"Found collision after {count} generation")
 
     def update_child_table(self, fieldname, df):
 
-        print(f"update child table : {fieldname=}, {df=}")
+        # print(f"update child table : {fieldname=}, {df=}")
         super().update_child_table(fieldname, df)
 
 

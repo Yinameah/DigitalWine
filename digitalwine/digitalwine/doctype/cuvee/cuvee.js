@@ -6,16 +6,10 @@ frappe.ui.form.on('Cuvee', {
    //}
   setup : function(frm) {
 
-    // Not sure of the scope of this variable, but it works 
-    // in filter below
-    //let selected_cepage = 'Merlot';
-
-    frm.set_query('cuvee_dest', 'operations', () => {
+    frm.set_query('cuvee_from', 'ops_in', function(frm) {
         return {
             filters: [
-              // But this is not the same as OR !! Cannot do this
-              //['Cuvee', 'cepage', '!=','Arvine'],
-              //['Cuvee', 'millesime', '!=', '2021']
+              ['Cuvee','name','!=',frm.name]
               
               // in simple '=' version, can use the simpler version 
               // field : 'value' in a dict
@@ -31,23 +25,24 @@ frappe.ui.form.on('Cuvee', {
 });
 
 
-frappe.ui.form.on('Cuvee Operation', { 
+// FOR REFERENCE : UI Operation on former operations field
+//frappe.ui.form.on('Cuvee Operation', {
 
-    operations_add(frm, cdt, cdn) { // "links" is the name of the table field in ToDo, "_add" is the event
-        // frm: current ToDo form
-        // cdt: child DocType 'Dynamic Link'
-        // cdn: child docname (something like 'a6dfk76')
-        // cdt and cdn are useful for identifying which row triggered this event
-        //frappe.msgprint('You added a Cuvee operation ! 🎉 ');
-    },
+//    operations_add(frm, cdt, cdn) { // "links" is the name of the table field in ToDo, "_add" is the event
+//        // frm: current ToDo form
+//        // cdt: child DocType 'Dynamic Link'
+//        // cdn: child docname (something like 'a6dfk76')
+//        // cdt and cdn are useful for identifying which row triggered this event
+//        //frappe.msgprint('You added a Cuvee operation ! 🎉 ');
+//    },
 
-    form_render(frm,cdt,cdn){
-        // this gets the row itself, not sure what we can do with this
-        let row = frappe.get_doc(cdt, cdn);
+//    form_render(frm,cdt,cdn){
+//        // this gets the row itself, not sure what we can do with this
+//        let row = frappe.get_doc(cdt, cdn);
 
-    }
+//    }
 
-});
+//});
 
 frappe.ui.form.on('Cuvee Op In', {
 
