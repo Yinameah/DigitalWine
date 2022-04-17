@@ -1,9 +1,9 @@
 {
  "actions": [
   {
-   "action": "digitalwine.api.create_product",
+   "action": "digitalwine.digitalwine.doctype.cuvee.cuvee.server_call",
    "action_type": "Server Action",
-   "label": "Create Product"
+   "label": "Server call"
   }
  ],
  "allow_rename": 1,
@@ -107,7 +107,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-11 10:00:25.854920",
+ "modified": "2022-04-17 17:39:02.850532",
  "modified_by": "Administrator",
  "module": "digitalwine",
  "name": "Cuvee",

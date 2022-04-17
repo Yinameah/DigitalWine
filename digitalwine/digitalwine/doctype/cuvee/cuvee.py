@@ -4,6 +4,57 @@
 import frappe
 from frappe.model.document import Document
 
+import ast
+import time
+
+
+@frappe.whitelist()
+def server_call(*args, **kwargs):
+    """
+    This is called by an action, i.e.
+    a "Server Action" defined in "Actions" of Cuvee Doctype
+
+    kwargs['doc'] is the dict of the current doc, where the action has been called
+    kwargs['cmd'] is the Action/Route that has been called. In our case :
+        'digitalwine.digitalwine.doctype.cuvee.cuvee.create_product'
+
+    Note that a function like this could be in digitalwine/api.py.
+    The action could be called from anywhere, so with theses two kwargs, we do know
+    exactly from where the action was called.
+
+    In my case, it seems like it's an action that makes senses only in the context of
+    one Cuvee open, so it feel more natural to have the method here. We'll see.
+
+    Note that this is actually very cool. Both flexible and KISS, like it.
+
+    BUT ! kwargs['doc'] is actually a string ! So here I use ast.litteral_eval,
+    but it definitly feels super weird. I guess it's not the right way.
+
+    Other note : this actually raise errors in the JS part, I guess I'm supposed to
+    return something, but what ... ?
+    """
+    frappe.msgprint(f"Hello from python")
+
+
+@frappe.whitelist()
+def create_product(bottle_capacity, price, cuvee):
+    """
+    This is called by the JS button created in cuvee.js
+
+    Frappe uses python signature function to distribute only the required kwargs ...
+
+    Note that a simple stuff like this could probably be done entirely in JS with
+    frappe.db...., which is just a shortcut for this kind of stuff
+    """
+
+    doc = frappe.new_doc("Product Wine")
+    doc.cuvee = cuvee
+    doc.price = price
+    doc.bottle_capacity = bottle_capacity
+    doc.save()
+
+    return doc.name
+
 
 class Cuvee(Document):
     """ """
