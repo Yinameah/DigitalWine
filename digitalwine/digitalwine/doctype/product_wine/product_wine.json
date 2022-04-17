@@ -14,7 +14,8 @@
   "stock",
   "_break1",
   "cepage",
-  "millesime"
+  "millesime",
+  "image"
  ],
  "fields": [
   {
@@ -74,11 +75,17 @@
   {
    "fieldname": "_break1",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Image"
   }
  ],
+ "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-09 09:32:55.843855",
+ "modified": "2022-04-17 20:20:18.875805",
  "modified_by": "Administrator",
  "module": "digitalwine",
  "name": "Product Wine",
@@ -97,6 +104,7 @@
    "write": 1
   }
  ],
+ "route": "name",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

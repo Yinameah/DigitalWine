@@ -4,6 +4,9 @@
 import frappe
 from frappe.model.document import Document
 
+# This is added when making doctype "has web view" with annoying bug that remove mandatory line above
+# from frappe.website.website_generator import WebsiteGenerator
+
 
 class ProductWine(Document):
     def autoname(self):
@@ -11,6 +14,7 @@ class ProductWine(Document):
         self.name = f"{cuvee.cepage} - {cuvee.millesime} - {self.bottle_capacity}"
 
     def before_save(self):
+        # TODO : this could be achieved with fetch_from
         cuvee = frappe.get_doc("Cuvee", self.cuvee)
         self.millesime = cuvee.millesime
         self.cepage = cuvee.cepage
