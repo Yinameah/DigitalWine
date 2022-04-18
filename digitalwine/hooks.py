@@ -51,7 +51,7 @@ home_page = "home"
 # ----------
 
 # automatically create page for each record of this doctype
-# website_generators = ["Web Page"]
+website_generators = ["Product Wine"]
 
 # Installation
 # ------------

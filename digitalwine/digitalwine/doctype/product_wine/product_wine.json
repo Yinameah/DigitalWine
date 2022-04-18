@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_guest_to_view": 1,
  "allow_rename": 1,
  "creation": "2022-04-09 08:45:32.909229",
  "doctype": "DocType",
@@ -15,7 +16,9 @@
   "_break1",
   "cepage",
   "millesime",
-  "image"
+  "image",
+  "route",
+  "published"
  ],
  "fields": [
   {
@@ -80,12 +83,25 @@
    "fieldname": "image",
    "fieldtype": "Attach Image",
    "label": "Image"
+  },
+  {
+   "fieldname": "route",
+   "fieldtype": "Data",
+   "label": "Route"
+  },
+  {
+   "default": "0",
+   "fieldname": "published",
+   "fieldtype": "Check",
+   "label": "Published"
   }
  ],
+ "has_web_view": 1,
  "image_field": "image",
  "index_web_pages_for_search": 1,
+ "is_published_field": "published",
  "links": [],
- "modified": "2022-04-17 20:20:18.875805",
+ "modified": "2022-04-18 21:45:33.011055",
  "modified_by": "Administrator",
  "module": "digitalwine",
  "name": "Product Wine",
@@ -104,7 +120,7 @@
    "write": 1
   }
  ],
- "route": "name",
+ "route": "product",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
