@@ -9,16 +9,42 @@ from frappe.website.website_generator import WebsiteGenerator
 # from frappe.website.website_generator import WebsiteGenerator
 
 
+def get_list_context(context):
+    """
+    This gives context to the list view
+    """
+    context.parents = [{"name": "Home", "route": "/"}]
+    context.title = "Products"
+    context.products = frappe.get_all(
+        "Product Wine",
+        fields=["name", "price", "millesime", "route"],
+        filters={"published": True},
+    )
+
+    # FOR DEBUG
+    contextCopy = dict(context)
+    context["all"] = contextCopy
+
+
 class ProductWine(WebsiteGenerator):
 
     website = frappe._dict(
-        template="templates/generators/product_wine.html",
+        # Default seems decent here,
+        # template="templates/product_wine.html",
+        # This guy is mandatory, otherwise, everybody is shown
+        # and unpublished items are routed with /None, which is a bug in my opinion..
         condition_field="published",
         page_title_field="name",
     )
 
     def get_context(self, context):
-        context.parents = [{"name": "name", "title": "A title"}]
+        """
+        This gives context (available in jinja2) for the page view
+        """
+        pass
+        # This adds breadcrumbs, probably an {% if ... %} below
+        # Don't totally get how it works, though
+        # context.parents = [{"name": "name", "title": "A title"}]
 
     def autoname(self):
         cuvee = frappe.get_doc("Cuvee", self.cuvee)
