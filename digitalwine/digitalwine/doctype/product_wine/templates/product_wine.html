@@ -1,8 +1,10 @@
 {% extends "templates/web.html" %}
 
 {% block page_content %}
-<h1>{{ title }}</h1>
-{{ price }}
+  <h3>{{ doc.title or doc.name }}</h3>
+  <img src={{doc.image}} />
+  <p>Au modeste prix de : {{ doc.price }} CHF</p>
+
+  <button>Acheter !</button>
 {% endblock %}
 
-<!-- this is a sample default web page template -->

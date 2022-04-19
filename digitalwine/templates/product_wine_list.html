@@ -1,0 +1,19 @@
+{#
+This ends up used, because in product_wine.py, we pass the via the
+"context.list_template" param the actual path to this file.
+
+This has consequence that "frappe/www/list.hmtl" will include the path in {{list_template}}
+instead of default "frappe/templates/includes/list/list.html"
+
+Also, the {{result}} var is populated with a list of "product_wine_row.html" templates, already rendered against each published item. (I thing an AJAX call is there somewhere for that...
+#}
+
+{% if result %}
+  {% for item in result %}
+    {{item}}
+  {% endfor %}
+
+{% else %}
+  <p><strong>DÉSOLÉ ;-(</strong> <br>
+  Nous n'avons aucun article pour le moment</p>
+{% endif %}

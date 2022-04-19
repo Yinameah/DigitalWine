@@ -1,6 +1,6 @@
 <div>
-	<a href="{{ doc.route }}">{{ doc.title or doc.name }}</a>
-        How do I override the list view ?
+  <img src={{doc.image}} />
+  <a href="{{ doc.route }}">{{ doc.title or doc.name }}</a>
+  <p>Au modeste prix de : {{ doc.price }} CHF</p>
 </div>
-  {{ all |pprint }}
-<!-- this is a sample default list template -->
+

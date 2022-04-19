@@ -1,1 +1,6 @@
-This works, ('/test_in_www'), but '/product' will not, because it is overriden by the DocType Web View route
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+  This works, ('/test_in_www'), as simple as this
+{% endblock %}
+
