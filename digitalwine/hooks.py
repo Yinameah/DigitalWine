@@ -87,9 +87,10 @@ website_generators = ["Product Wine"]
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+    # 	"ToDo": "custom_app.overrides.CustomToDo"
+    "Address": "digitalwine.overrides.address_override.CustomAddress"
+}
 
 # Document Events
 # ---------------
