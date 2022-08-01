@@ -1,0 +1,15 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+  <div>this is another shop, cause it don't seem I can really manage stuff with WebsiteGenerator. It does 1 page by item.</div>
+
+  <div>and this is good exercice ... (and an easy one at the end, yay ! ) </div>
+
+  {% for cuvee in cuvees %}
+    <h3>
+      {{cuvee.cepage}}
+    </h3>
+    <button>Acheter !</button>
+  {% endfor %}
+
+{% endblock %}

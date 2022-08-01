@@ -101,6 +101,12 @@ class Cuvee(Document):
         ############
         out_qty = 0
         for op in self.ops_out:
+
+            if op.type == "Bottling":
+                cl = frappe.get_doc("Bottle Capacity", op.bottle_capacity).capacity_cl
+                litres = cl * op.bottle_amount / 100
+                op.qty = litres
+
             out_qty += op.qty
 
             op_common_validation(op)

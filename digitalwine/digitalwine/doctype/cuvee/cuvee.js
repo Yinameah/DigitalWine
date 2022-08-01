@@ -107,7 +107,7 @@ frappe.ui.form.on("Cuvee Operation", {
     frm.set_df_property(
       "ops_out",
       "options",
-      ["Transfer", "Sell", "Bottling"],
+      ["Transfer", "Sell", "Bottling", "Loss"],
       frm.doc.name,
       "type",
       cdn

@@ -5,4 +5,13 @@
 from frappe.model.document import Document
 
 class CuveeOperation(Document):
-	pass
+    """
+    NOTE : this is a child document.
+
+    As far as I understood, child document can only be updated
+    via their parent.
+    
+    And it seems that validate() or save() method are not called when
+    updating the parent document. So the usefullness of this class might
+    be rather limited ....
+    """
